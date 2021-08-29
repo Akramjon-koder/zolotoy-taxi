@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:elevation="30dp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/edit_icon" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/yellow"
+        android:clickable="true"
+        android:elevation="30dp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/map_view"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:src="@drawable/icon_send" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/yellow"
+        android:clickable="true"
+        android:elevation="30dp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/map_view"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:src="@drawable/icon_card" />
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/layoutbottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layoutbottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="30dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/outlinebackground"
+            android:hint="Адрес Отправления (геометка)"
+            android:padding="8dp"
+            android:textSize="14sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/outlinebackground"
+            android:hint="Адрес Назначения (геометка)"
+            android:padding="8dp"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/size_5dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_order1"
+                android:orientation="vertical"
+                android:background="@drawable/outlinebackgroundyellow"
+                android:elevation="@dimen/size_1dp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:layout_marginLeft="@dimen/size_5dp"
+                xmlns:android="http://schemas.android.com/apk/res/android">
+
+                <TextView
+                    android:id="@+id/nomi1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_18sp"
+                    android:textColor="@color/white"
+                    android:text="К бабуле"
+                    android:fontFamily="@font/roboto_mono_bold"
+                    android:layout_marginLeft="@dimen/size_12dp"
+                    android:layout_marginTop="@dimen/size_12dp"/>
+
+                <TextView
+                    android:id="@+id/title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_18sp"
+                    android:textColor="@color/white"
+                    android:text="Ул. Воскова, 4"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/roboto"
+                    android:maxLines="1"
+                    android:layout_marginLeft="@dimen/size_12dp"
+                    android:layout_marginTop="@dimen/size_12dp"
+                    android:layout_marginRight="@dimen/size_12dp" />
+
+                <TextView
+                    android:id="@+id/title11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_18sp"
+                    android:textColor="@color/white"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="nПарковая, 21Б"
+                    android:fontFamily="@font/roboto"
+                    android:layout_marginLeft="@dimen/size_12dp"
+                    android:layout_marginTop="@dimen/size_3dp"
+                    android:layout_marginRight="@dimen/size_12dp"
+                    android:layout_marginBottom="@dimen/size_12dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_order2"
+                android:orientation="vertical"
+                android:background="@drawable/outlinebackground"
+                android:elevation="@dimen/size_1dp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:layout_marginLeft="@dimen/size_8dp"
+                xmlns:android="http://schemas.android.com/apk/res/android">
+
+                <TextView
+                    android:id="@+id/nomi2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_18sp"
+                    android:textColor="@color/black"
+                    android:text="К бабуле"
+                    android:fontFamily="@font/roboto_mono_bold"
+                    android:layout_marginLeft="@dimen/size_12dp"
+                    android:layout_marginTop="@dimen/size_12dp"/>
+
+                <TextView
+                    android:id="@+id/title2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_18sp"
+                    android:textColor="@color/black"
+                    android:text="Ул. Воскова, 4"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/roboto"
+                    android:maxLines="1"
+                    android:layout_marginLeft="@dimen/size_12dp"
+                    android:layout_marginTop="@dimen/size_12dp"
+                    android:layout_marginRight="@dimen/size_12dp" />
+
+                <TextView
+                    android:id="@+id/title12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_18sp"
+                    android:textColor="@color/black"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="nПарковая, 21Б"
+                    android:fontFamily="@font/roboto"
+                    android:layout_marginLeft="@dimen/size_12dp"
+                    android:layout_marginTop="@dimen/size_3dp"
+                    android:layout_marginRight="@dimen/size_12dp"
+                    android:layout_marginBottom="@dimen/size_12dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/size_10dp"
+            android:layout_marginTop="@dimen/size_5dp">
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="3"
+                android:textColor="@color/white"
+                android:text="Заказать"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"/>
+
+            <ImageButton
+                android:layout_width="@dimen/size_100dp"
+                android:layout_height="@dimen/size_50dp"
+                android:src="@drawable/ic_editplus"
+                android:backgroundTint="@color/yellow"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

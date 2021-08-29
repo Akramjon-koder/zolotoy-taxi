@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/item_order"
+    android:orientation="vertical"
+    android:background="@drawable/outlinebackgroundlightyellow"
+    android:elevation="@dimen/size_5dp"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:layout_marginHorizontal="@dimen/size_3dp"
+    android:layout_marginTop="@dimen/size_10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/nomi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:layout_marginLeft="@dimen/size_10dp"
+        android:layout_marginTop="@dimen/size_10dp"
+        android:text="8 дек, 16:32 - 16:39"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/size_15dp"
+        android:fontFamily="@font/roboto_mono_bold"
+        android:text="5 000 so'm"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/nomi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/nomi" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_5dp"
+        android:layout_marginLeft="@dimen/size_10dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto"
+        android:maxLines="1"
+        android:text="Ул. Максима Горького, 28"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nomi" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Адрес Отправления"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/text_10sp"
+        android:layout_marginRight="@dimen/size_15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title" />
+
+    <TextView
+        android:id="@+id/title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/size_10dp"
+        android:layout_marginTop="@dimen/size_5dp"
+        android:layout_marginBottom="@dimen/size_10dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto"
+        android:maxLines="1"
+        android:text="Ул. Парковая, 22"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Адрес Назначения"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/text_10sp"
+        android:layout_marginRight="@dimen/size_15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
