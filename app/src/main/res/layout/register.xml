@@ -25,32 +25,62 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:text="Войдите по номеру телефона"
+        android:text="SMS kodni kiriting"
         android:textColor="@color/black"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
-        app:layout_constraintStart_toStartOf="@+id/editText" />
+        app:layout_constraintBottom_toTopOf="@+id/pinview"
+        app:layout_constraintStart_toStartOf="@+id/pinview" />
+
+
+<!--    <com.goodiebag.pinview.Pinview-->
+<!--        android:id="@+id/editText"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:inputType="number"-->
+<!--        app:cursorVisible="true"-->
+<!--        app:pinHeight="@dimen/size_40dp"-->
+<!--        app:pinLength="4"-->
+<!--        app:pinWidth="@dimen/size_40dp"-->
+<!--        app:forceKeyboard="true"-->
+<!--        app:pinBackground="@drawable/outlinebackground"-->
+<!--        android:layout_marginLeft="@dimen/size_30dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:lineColor="@color/yellow" />-->
 
     <com.chaos.view.PinView
-        android:id="@+id/editText"
+        android:id="@+id/pinview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:itemBackground="@drawable/outlinebackground"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:hideLineWhenFilled="true"
+        android:cursorVisible="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_18sp"
+        android:layout_marginLeft="30dp"
+        android:gravity="center_vertical"
+        android:inputType="number"
+        android:padding="5dp"
         app:itemCount="5"
         app:itemHeight="38dp"
         app:itemRadius="5dp"
         app:itemWidth="38dp"
-        app:lineColor="@color/yellow"
-        android:layout_marginRight="120dp"
-        android:layout_marginLeft="30dp"
-        android:gravity="center_vertical"
-        android:padding="5dp"
+        app:cursorColor="@color/teal_200"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:lineColor="@color/yellow" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/materialButton"
+        android:id="@+id/sendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0.5"
@@ -60,8 +90,8 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintStart_toStartOf="@+id/pinview"
+        app:layout_constraintTop_toBottomOf="@+id/pinview" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -70,8 +100,8 @@
         android:text="Через 49 секунд..."
         android:textColor="#A0A0A0"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/materialButton"
-        app:layout_constraintStart_toEndOf="@+id/materialButton"
-        app:layout_constraintTop_toTopOf="@+id/materialButton" />
+        app:layout_constraintBottom_toBottomOf="@+id/sendButton"
+        app:layout_constraintStart_toEndOf="@+id/sendButton"
+        app:layout_constraintTop_toTopOf="@+id/sendButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

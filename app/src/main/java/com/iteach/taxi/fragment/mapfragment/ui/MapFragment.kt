@@ -1,5 +1,9 @@
 package com.iteach.taxi.fragment.mapfragment.ui
 
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Parcel
@@ -7,12 +11,16 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.loader.content.AsyncTaskLoader
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.iteach.taxi.databinding.FragmentMapBinding
+import java.util.jar.Manifest
 
 
 class MapFragment: Fragment(),OnMapReadyCallback{
@@ -20,6 +28,7 @@ class MapFragment: Fragment(),OnMapReadyCallback{
     private var _binding: FragmentMapBinding?=null
     private val binding get() = _binding!!
     private lateinit var googleMap :GoogleMap
+    private val REQUES_CALL =1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +46,32 @@ class MapFragment: Fragment(),OnMapReadyCallback{
         binding.mapView.onResume()
         binding.mapView.getMapAsync(this)
 
+        binding.apply {
+            phone.setOnClickListener(View.OnClickListener {
+                makePhoneCall()
+            })
+        }
+
         return binding.root
+    }
+
+    private fun makePhoneCall() {
+
+        val phone_number = "+998336694838"
+        if (phone_number.trim().length>0){
+
+            if (ContextCompat.checkSelfPermission(requireContext(),android.Manifest.permission.CALL_PHONE)!=PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(requireActivity(),
+                    arrayOf(android.Manifest.permission.CALL_PHONE),
+                    REQUES_CALL
+                )
+            }else{
+                val dial = "tel:" +phone_number
+                startActivity(Intent(Intent.ACTION_CALL, Uri.parse(dial)))
+            }
+
+        }
+
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -46,6 +80,19 @@ class MapFragment: Fragment(),OnMapReadyCallback{
             googleMap = it
         }
 
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == REQUES_CALL){
+            makePhoneCall()
+            if (grantResults.size > 0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+
+            }else Toast.makeText(requireContext(),"Iltimos ruxsat bering.",Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun getDirectionsUrl(origin: LatLng, dest: LatLng): String? {

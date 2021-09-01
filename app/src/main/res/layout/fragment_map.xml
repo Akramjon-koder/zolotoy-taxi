@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"
@@ -24,42 +25,56 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/size_50dp"
+        android:layout_height="@dimen/size_50dp"
         android:layout_margin="10dp"
         android:backgroundTint="@color/yellow"
         android:clickable="true"
         android:elevation="30dp"
         android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/map_view"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/size_12dp"
             android:src="@drawable/icon_send" />
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="10dp"
-        android:backgroundTint="@color/yellow"
-        android:clickable="true"
-        android:elevation="30dp"
-        android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="20dp"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/phone"
+        android:layout_width="@dimen/size_40dp"
+        android:layout_height="@dimen/size_40dp"
+        android:layout_marginRight="@dimen/size_10dp"
+        android:layout_marginBottom="@dimen/size_10dp"
+        android:backgroundTint="#1CED24"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_14sp"
+        app:icon="@drawable/icon_phone"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/map_view"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:src="@drawable/icon_card" />
-    </androidx.cardview.widget.CardView>
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:layout_width="40dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:backgroundTint="@color/yellow"-->
+<!--        android:clickable="true"-->
+<!--        android:elevation="30dp"-->
+<!--        android:foreground="?attr/selectableItemBackground"-->
+<!--        app:cardCornerRadius="20dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/map_view"-->
+<!--        app:layout_constraintEnd_toEndOf="parent">-->
+
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_margin="8dp"-->
+<!--            android:src="@drawable/icon_card" />-->
+<!--    </androidx.cardview.widget.CardView>-->
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/map_view"
@@ -214,6 +229,8 @@
 
         </LinearLayout>
 
+
+
         <LinearLayout
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
@@ -221,12 +238,13 @@
             android:orientation="horizontal"
             android:layout_marginBottom="@dimen/size_10dp"
             android:layout_marginTop="@dimen/size_5dp">
+
             <com.google.android.material.button.MaterialButton
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="3"
                 android:textColor="@color/white"
-                android:text="Заказать"
+                android:text="hisobni boshlash"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"/>
 
