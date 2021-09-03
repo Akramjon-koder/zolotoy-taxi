@@ -6,13 +6,15 @@ import com.iteach.taxi.model.BaseResponse
 import com.iteach.taxi.model.LogindataModel
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface Api {
     @POST(Api_urls.LOGIN_URL)
+    @FormUrlEncoded
 fun getLogin(
-        @Body loginpassword: Login_Password
+        @Field("username") username:String,
+        @Field("password") pass:String
+
 ): Observable<BaseResponse<LogindataModel>>
 
 }

@@ -28,21 +28,14 @@ class LoginFragment : Fragment(){
         binding.buttonlogin.setOnClickListener(View.OnClickListener {
 
             val phone = "+998936448111"   //binding.editText.text.toString()
-
-            val password =12345678    //Integer.parseInt(binding.editText2.text.toString())
+            val password ="12345678"  //Integer.parseInt(binding.editText2.text.toString())
 
 
             replaceFragment(FragmentRegister(Login_Password(phone,password)))
         })
-
-
         return binding.root
     }
-
-
-
     private fun replaceFragment(fragment: Fragment) {
-
         val fc = activity as FragmentChangeListenerLogin?
         fc!!.replaceFragment(fragment,"+998336694838")
 

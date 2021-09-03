@@ -1,5 +1,6 @@
 package com.iteach.taxi.fragment.login.repository
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.iteach.taxi.api.NetworkManeger
 import com.iteach.taxi.fragment.login.base.Login_Password
@@ -12,10 +13,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class LoginRepository {
     val compositeDisposible = CompositeDisposable()
-
     fun sendLogin(error: MutableLiveData<String>,success: MutableLiveData<LogindataModel> ,logginpassword:Login_Password){
+      Log.e("xATOLIK",logginpassword.toString())
         compositeDisposible.add(
-            NetworkManeger.getApiService().getLogin(logginpassword).
+            NetworkManeger.getApiService().getLogin(logginpassword.username.toString(),logginpassword.password.toString()).
             subscribeOn(Schedulers.io()).
             observeOn(AndroidSchedulers.mainThread()).
             subscribeWith(object : DisposableObserver<BaseResponse<LogindataModel>>(){
@@ -24,9 +25,7 @@ class LoginRepository {
                         success.value = t?.data
                     } else
                         error.value = t?.message
-
                 }
-
                 override fun onError(e: Throwable) {
                     error.value = e?.localizedMessage
                 }

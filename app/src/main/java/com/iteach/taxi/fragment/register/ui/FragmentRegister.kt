@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,18 +34,19 @@ class FragmentRegister(val logginpassword: Login_Password) : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         _binding = RegisterBinding.inflate(inflater,container,false)
-
         inits()
 
         sendLogin()
 
         viewModel.error.observe(requireActivity(), Observer {
             Toast.makeText(requireContext(),it , Toast.LENGTH_LONG).show()
+            Log.e("succes",it.toString())
         })
 
         viewModel.user.observe(requireActivity(), Observer {
             LoginPref.SaveLogin(it)
             Toast.makeText(requireContext(),it.first_name,Toast.LENGTH_SHORT).show()
+
         })
 
         binding.apply {
