@@ -7,34 +7,34 @@ data class LoginModel(
 	val image: String? = null,
 
 	@field:SerializedName("type_id")
-	val typeId: Int? = null,
+	val type_id: Int? = null,
 
 	@field:SerializedName("created_at")
-	val createdAt: Int? = null,
+	val created_at: Int? = null,
 
 	@field:SerializedName("last_name")
-	val lastName: String? = null,
+	val last_name: String? = null,
 
 	@field:SerializedName("password_reset_token")
-	val passwordResetToken: String? = null,
+	val password_reset_token: String? = null,
 
 	@field:SerializedName("auth_key")
-	val authKey: String? = null,
+	val auth_key: String? = null,
 
 	@field:SerializedName("updated_at")
-	val updatedAt: Int? = null,
+	val updated_at: String? = null,
 
 	@field:SerializedName("phone")
 	val phone: String? = null,
 
 	@field:SerializedName("password_hash")
-	val passwordHash: String? = null,
+	val password_hash: String? = null,
 
 	@field:SerializedName("id")
 	val id: Int? = null,
 
 	@field:SerializedName("first_name")
-	val firstName: String? = null,
+	val first_Name: String? = null,
 
 	@field:SerializedName("email")
 	val email: String? = null,
