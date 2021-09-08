@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(), FragmentChangeListenerLogin {
     }
 
     override fun replaceFragment(fragment: Fragment?, phone: String) {
-        if (  !phone.equals("") ){
+        if ( !phone.equals("") ){
             val fragmenManeger = supportFragmentManager
             val fragmenTransction = fragmenManeger.beginTransaction()
             if (fragment != null) {

@@ -9,13 +9,9 @@ import com.iteach.taxi.model.LogindataModel
 class MyViewModel :ViewModel() {
 
     val login_repository = LoginRepository()
-
     val user = MutableLiveData<LogindataModel>()
-
     val error = MutableLiveData<String>()
-
     fun sendLogin(logginpassword: Login_Password){
-
         login_repository.sendLogin(error,user,logginpassword)
     }
 }

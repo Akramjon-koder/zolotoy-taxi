@@ -29,9 +29,7 @@ class LoginRepository {
                 override fun onError(e: Throwable) {
                     error.value = e?.localizedMessage
                 }
-
                 override fun onComplete() {
-
                 }
 
             })
