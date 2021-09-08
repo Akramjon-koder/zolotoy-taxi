@@ -11,6 +11,7 @@ import com.iteach.taxi.databinding.ActivityMainBinding
 import com.iteach.taxi.fragment.FragmentChangeListener
 import com.iteach.taxi.fragment.signup.ui.Fragment_SignUp
 import com.iteach.taxi.viewmodel.MyViewModel
+import io.paperdb.Paper
 
 class MainActivity : AppCompatActivity(), FragmentChangeListener {
     private var _binding: ActivityMainBinding?=null
@@ -23,6 +24,11 @@ class MainActivity : AppCompatActivity(), FragmentChangeListener {
 
         inits()
 
+        if (!LoginPref.ReadLogin().phone.equals("")){
+            startActivity(Intent(this,TaxiActivity::class.java))
+            finish()
+        }
+
         replaceFragment(Fragment_SignUp())
 
         viewModel.user.observe(this, Observer {
@@ -34,6 +40,8 @@ class MainActivity : AppCompatActivity(), FragmentChangeListener {
     }
 
     private fun inits() {
+        Paper.init(this)
+
         viewModel = ViewModelProvider(this).get(MyViewModel::class.java)
     }
 

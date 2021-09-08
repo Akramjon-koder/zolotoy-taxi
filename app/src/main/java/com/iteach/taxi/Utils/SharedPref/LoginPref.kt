@@ -8,5 +8,8 @@ object LoginPref {
      fun SaveLogin(model: LoginModel){
          Paper.book().write(login,model)
      }
+    fun ReadLogin() : LoginModel{
+        return Paper.book().read(login, LoginModel("",0,0,"","","","","","",0,"","","",0))
+    }
 
 }

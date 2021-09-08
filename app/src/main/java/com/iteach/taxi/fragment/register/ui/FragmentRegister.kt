@@ -88,8 +88,6 @@ class FragmentRegister(val sendRegisterModel: Send_Register_Model) : Fragment(){
 
     private fun inits() {
 
-        Paper.init(requireContext())
-
         viewModel = ViewModelProvider(requireActivity()).get(MyViewModel::class.java)
     }
 

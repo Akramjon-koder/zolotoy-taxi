@@ -15,6 +15,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.DirectionsApi;
+import com.google.maps.DirectionsApiRequest;
+import com.google.maps.GeoApiContext;
+import com.google.maps.model.DirectionsLeg;
+import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.DirectionsStep;
+import com.google.maps.model.EncodedPolyline;
 
 import org.json.JSONObject;
 
@@ -28,11 +36,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.service.controls.ControlsProviderService.TAG;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    ArrayList markerPoints= new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,193 +56,77 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng sydney = new LatLng(-34, 151);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 16));
+        LatLng barcelona = new LatLng(41.385064,2.173403);
+        mMap.addMarker(new MarkerOptions().position(barcelona).title("Marker in Barcelona"));
 
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
+        LatLng madrid = new LatLng(40.416775,-3.70379);
+        mMap.addMarker(new MarkerOptions().position(madrid).title("Marker in Madrid"));
 
-                if (markerPoints.size() > 1) {
-                    markerPoints.clear();
-                    mMap.clear();
-                }
+        LatLng zaragoza = new LatLng(41.648823,-0.889085);
 
-                // Adding new item to the ArrayList
-                markerPoints.add(latLng);
+        //Define list to get all latlng for the route
+        List<LatLng> path = new ArrayList();
 
-                // Creating MarkerOptions
-                MarkerOptions options = new MarkerOptions();
-
-                // Setting the position of the marker
-                options.position(latLng);
-
-                if (markerPoints.size() == 1) {
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                } else if (markerPoints.size() == 2) {
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                }
-
-                // Add new marker to the Google Map Android API V2
-                mMap.addMarker(options);
-
-                // Checks, whether start and end locations are captured
-                if (markerPoints.size() >= 2) {
-                    LatLng origin = (LatLng) markerPoints.get(0);
-                    LatLng dest = (LatLng) markerPoints.get(1);
-
-                    // Getting URL to the Google Directions API
-                    String url = getDirectionsUrl(origin, dest);
-
-                    DownloadTask downloadTask = new DownloadTask();
-
-                    // Start downloading json data from Google Directions API
-                    downloadTask.execute(url);
-                }
-
-            }
-        });
-
-    }
-
-    private class DownloadTask extends AsyncTask {
-
-        @Override
-        protected void onPostExecute(Object result) {
-            super.onPostExecute(result);
-
-            ParserTask parserTask = new ParserTask();
-
-            parserTask.execute(result.toString());
-
-        }
-
-        @Override
-        protected String doInBackground(Object[] objects) {
-            String data = "";
-
-            try {
-                data = downloadUrl(objects[0].toString());
-                Log.d("Task url", objects[0].toString());
-            } catch (Exception e) {
-                Log.d("Background Task", e.toString());
-            }
-            return data;
-        }
-    }
-
-    private class ParserTask extends AsyncTask<String, Void, List<List<HashMap<String, String>>>> {
-
-        // Parsing the data in non-ui thread
-        @Override
-        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
-
-            JSONObject jObject;
-            List<List<HashMap<String, String>>> routes = null;
-
-            try {
-                jObject = new JSONObject(jsonData[0]);
-                DirectionsJSONParser parser = new DirectionsJSONParser();
-
-                routes = parser.parse(jObject);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return routes;
-        }
-
-        @Override
-        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList points = null;
-            PolylineOptions lineOptions = null;
-            MarkerOptions markerOptions = new MarkerOptions();
-            Log.d("locations",result.size() +"");
-            for (int i = 0; i < result.size(); i++) {
-                points = new ArrayList();
-                lineOptions = new PolylineOptions();
-
-                List<HashMap<String, String>> path = result.get(i);
-
-                for (int j = 0; j < path.size(); j++) {
-                    HashMap point = path.get(j);
-
-                    double lat = Double.parseDouble((String) point.get("lat"));
-                    double lng = Double.parseDouble((String) point.get("lng"));
-                    LatLng position = new LatLng(lat, lng);
-
-                    points.add(position);
-                }
-
-                lineOptions.addAll(points);
-                lineOptions.width(12);
-                lineOptions.color(Color.RED);
-                lineOptions.geodesic(true);
-
-            }
-
-// Drawing polyline in the Google Map for the i-th route
-//            mMap.addPolyline(lineOptions);
-        }
-    }
-
-    private String getDirectionsUrl(LatLng origin, LatLng dest) {
-
-        // Origin of route
-        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
-
-        // Destination of route
-        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
-
-        // Sensor enabled
-        String sensor = "sensor=false";
-        String mode = "mode=driving";
-
-        // Building the parameters to the web service
-        String parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + mode;
-
-        // Output format
-        String output = "json";
-
-        // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
-
-
-        return url;
-    }
-
-    private String downloadUrl(String strUrl) throws IOException {
-        String data = "";
-        InputStream iStream = null;
-        HttpURLConnection urlConnection = null;
+        //Execute Directions API request
+        GeoApiContext context = new GeoApiContext.Builder()
+                .apiKey("AIzaSyBHgwO6Vw2m7CnWnRXozt3IBBpnikBFGTo")
+                .build();
+        DirectionsApiRequest req = DirectionsApi.getDirections(context, "41.385064,2.173403", "40.416775,-3.70379");
         try {
-            URL url = new URL(strUrl);
+            DirectionsResult res = req.await();
 
-            urlConnection = (HttpURLConnection) url.openConnection();
+            //Loop through legs and steps to get encoded polylines of each step
+            if (res.routes != null && res.routes.length > 0) {
+                DirectionsRoute route = res.routes[0];
 
-            urlConnection.connect();
-
-            iStream = urlConnection.getInputStream();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
-
-            StringBuffer sb = new StringBuffer();
-
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
+                if (route.legs !=null) {
+                    for(int i=0; i<route.legs.length; i++) {
+                        DirectionsLeg leg = route.legs[i];
+                        if (leg.steps != null) {
+                            for (int j=0; j<leg.steps.length;j++){
+                                DirectionsStep step = leg.steps[j];
+                                if (step.steps != null && step.steps.length >0) {
+                                    for (int k=0; k<step.steps.length;k++){
+                                        DirectionsStep step1 = step.steps[k];
+                                        EncodedPolyline points1 = step1.polyline;
+                                        if (points1 != null) {
+                                            //Decode polyline and add points to list of route coordinates
+                                            List<com.google.maps.model.LatLng> coords1 = points1.decodePath();
+                                            for (com.google.maps.model.LatLng coord1 : coords1) {
+                                                path.add(new LatLng(coord1.lat, coord1.lng));
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    EncodedPolyline points = step.polyline;
+                                    if (points != null) {
+                                        //Decode polyline and add points to list of route coordinates
+                                        List<com.google.maps.model.LatLng> coords = points.decodePath();
+                                        for (com.google.maps.model.LatLng coord : coords) {
+                                            path.add(new LatLng(coord.lat, coord.lng));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-
-            data = sb.toString();
-
-            br.close();
-
-        } catch (Exception e) {
-            Log.d("Exception", e.toString());
-        } finally {
-            iStream.close();
-            urlConnection.disconnect();
+        } catch(Exception ex) {
+            Log.e(TAG, ex.getLocalizedMessage());
         }
-        return data;
+
+        //Draw the polyline
+        if (path.size() > 0) {
+            PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.BLUE).width(5);
+            mMap.addPolyline(opts);
+        }
+
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(zaragoza, 6));
+
     }
+
+
 }

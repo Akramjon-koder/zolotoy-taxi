@@ -1,14 +1,13 @@
 package com.iteach.taxi.fragment.mapfragment.ui
 
-import android.app.Activity
+import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,15 +15,15 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.loader.content.AsyncTaskLoader
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.maps.model.MarkerOptions
 import com.iteach.taxi.databinding.FragmentMapBinding
-import java.util.jar.Manifest
+import com.mindorks.ridesharing.utils.PermissionUtils
 
 
 class MapFragment: Fragment(),OnMapReadyCallback{
@@ -34,12 +33,96 @@ class MapFragment: Fragment(),OnMapReadyCallback{
     private lateinit var googleMap :GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val REQUES_CALL =1
-    private val LOCATION_REQUEST_CODE =10001
+    private val LOCATION_PERMISSION_REQUEST_CODE = 999
+    private var mHandler: Handler? = null
+    private var dis: Double = 0.0
+    private var begin: LatLng? = null
+    private var end: LatLng? = null
+    private var start0rstop = true
+private var fusedLocationProviderClient: FusedLocationProviderClient?=null
+    private lateinit var locationCallback: LocationCallback
+    private  var currentLatLng:LatLng?=null
+
+
+
+    lateinit var locationRequest: LocationRequest
+    lateinit var locationcallback: LocationCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mHandler = Handler()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        locationRequest = LocationRequest.create().apply {
+            interval = 5000
+            fastestInterval = 5000
+            priority =LocationRequest.PRIORITY_HIGH_ACCURACY
+
+        }
+        locationcallback = object: LocationCallback(){
+
+            override fun onLocationResult(locationresult: LocationResult) {
+                super.onLocationResult(locationresult)
+                locationresult ?: return
+                for (location in locationresult.locations){
+                    if (begin==null){
+                        begin =LatLng(location.latitude,location.longitude)
+                    }else{
+                        dis = dis +distanse(begin!!.latitude,begin!!.longitude,location.latitude,location.longitude)
+
+                        Toast.makeText(requireContext(),"dis: "+dis+" metr",Toast.LENGTH_SHORT).show()
+                    }
+                    Toast.makeText(requireContext(),"latlon: "+location.latitude+"\n"+location.longitude,Toast.LENGTH_SHORT).show()
+                }
+
+            }
+
+        }
+
+
     }
+
+    private fun calcilateDstanse() {
+        setUpLocationListener()
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 20f))
+        if (begin==null){
+            begin = currentLatLng
+        }else{
+
+            val loc =currentLatLng
+
+            if (loc != null && begin !=null) {
+                dis = dis + distanse(loc.latitude,loc.longitude, begin!!.latitude, begin!!.longitude)
+            }
+
+            Toast.makeText(requireContext(),"dis: "+dis.toString(),Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),"latlon: "+currentLatLng.toString(),Toast.LENGTH_SHORT).show()
+        }
+
+
+    }
+
+    private fun distanse(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        val theta = lon1 - lon2
+        var dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) +
+                (Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2))
+                        * Math.cos(deg2rad(theta)))
+        dist = Math.acos(dist)
+        dist = rad2deg(dist)
+        dist =
+            dist * 60 // 60 nautical miles  per degree of seperation  //Seperatsiya darajasiga 60 dengiz mil
+        dist = dist * 1852 // 1820 meters per nautial mile  // Har bir dengiz mili 1820 metr
+        return dist
+    }
+
+    private fun deg2rad(deg: Double): Double {
+        return deg * Math.PI / 180.0
+    }
+
+    private fun rad2deg(deg: Double): Double {
+        return deg * 180.0 / Math.PI
+    }
+
 
 
     override fun onCreateView(
@@ -56,38 +139,144 @@ class MapFragment: Fragment(),OnMapReadyCallback{
             phone.setOnClickListener(View.OnClickListener {
                 makePhoneCall()
             })
+            startButton.setOnClickListener(View.OnClickListener {
+                if (start0rstop){
+//                    dis = 0.0
+//                    startRepeatingTask()
+                    start0rstop = false
+                   startButton.setText("Hisobni to'xtatish")
+
+                    start()
+
+                }else{
+//                    stopRepeatingTask()
+                   start0rstop = true
+                   startButton.setText("Hisobni boshlash")
+
+                    stop()
+                }
+
+            })
+
+            getLocationnn.setOnClickListener(View.OnClickListener {
+
+                val distanse = distanse(40.373880748356946, 71.80497186762656,40.42198965122155, 71.77347200532392)
+                Toast.makeText(requireContext(),distanse.toString(),Toast.LENGTH_SHORT).show()
+            })
         }
 
         return binding.root
     }
-
-    private fun getLastLocation(){
+    private fun start(){
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 requireContext(),
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            fusedLocationClient.lastLocation.addOnSuccessListener { location : Location? ->}
-        }else{
-            askLocationPermission()
-        }
 
+            return
+        }
+        fusedLocationClient.requestLocationUpdates(locationRequest,locationcallback, Looper.getMainLooper())
     }
 
-    private fun askLocationPermission() {
-        if (ContextCompat.checkSelfPermission(requireContext(),android.Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
-            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),android.Manifest.permission.ACCESS_FINE_LOCATION)){
-
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                    LOCATION_REQUEST_CODE
-                )
+    private fun stop(){
+        fusedLocationClient.removeLocationUpdates(locationcallback)
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            LOCATION_PERMISSION_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    when {
+                        PermissionUtils.isLocationEnabled(requireContext()) -> {
+                            setUpLocationListener()
+                        }
+                        else -> {
+                            PermissionUtils.showGPSNotEnabledDialog(requireContext())
+                        }
+                    }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "ruxsat berilmagan",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
+    }
+    override fun onStart() {
+        super.onStart()
+        if (currentLatLng == null) {
+            when {
+                PermissionUtils.isAccessFineLocationGranted(requireContext()) -> {
+                    when {
+                        PermissionUtils.isLocationEnabled(requireContext()) -> {
+                            setUpLocationListener()
+                        }
+                        else -> {
+                            PermissionUtils.showGPSNotEnabledDialog(requireContext())
+                        }
+                    }
+                }
+                else -> {
+                    PermissionUtils.requestAccessFineLocationPermission(
+                        requireActivity(),
+                        LOCATION_PERMISSION_REQUEST_CODE
+                    )
+                }
+            }
+        }
+    }
+    private fun setUpLocationListener() {
+        fusedLocationProviderClient = FusedLocationProviderClient(requireActivity())
+        // for getting the current location update after every 2 seconds
+        val locationRequest = LocationRequest().setInterval(2000).setFastestInterval(2000)
+            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+                if (currentLatLng == null) {
+                    for (location in locationResult.locations) {
+                        if (currentLatLng == null) {
+                            currentLatLng = LatLng(location.latitude, location.longitude)
+
+
+                         //     setCurrentLocationAsPickUp()
+//                            enableMyLocationOnMap()
+//                            moveCamera(currentLatLng)
+//                            animateCamera(currentLatLng)
+//                            presenter.requestNearbyCabs(currentLatLng!!)
+                        }
+                    }
+                }
+                // Few more things we can do here:
+                // For example: Update the location of user on server
+            }
+        }
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        fusedLocationProviderClient?.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.myLooper()
+        )
     }
 
     private fun makePhoneCall() {
@@ -118,24 +307,9 @@ class MapFragment: Fragment(),OnMapReadyCallback{
 
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == REQUES_CALL){
-            makePhoneCall()
-            if (grantResults.size > 0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
 
-            }else Toast.makeText(requireContext(),"Iltimos ruxsat bering.",Toast.LENGTH_SHORT).show()
-        }
-
-        if (requestCode == LOCATION_REQUEST_CODE){
-            if (grantResults.size > 0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                getLastLocation()
-            }else Toast.makeText(requireContext(),"Iltimos ruxsat bering.",Toast.LENGTH_SHORT).show()
-        }
-    }
 
 
 }
+
+
