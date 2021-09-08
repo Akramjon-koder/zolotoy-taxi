@@ -35,7 +35,7 @@ class MapFragment: Fragment(),OnMapReadyCallback{
     private var dis: Double = 0.0
     private var begin: LatLng? = null
     private var start0rstop = true
-private var fusedLocationProviderClient: FusedLocationProviderClient?=null
+    private var fusedLocationProviderClient: FusedLocationProviderClient?=null
     private lateinit var locationCallback: LocationCallback
     private  var currentLatLng:LatLng?=null
 
@@ -62,22 +62,19 @@ private var fusedLocationProviderClient: FusedLocationProviderClient?=null
                 for (location in locationresult.locations){
                     if (begin==null){
                         begin =LatLng(location.latitude,location.longitude)
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(begin,16f),5000,null)
                     }else{
                         val distanselatlon = distanse(begin!!.latitude,begin!!.longitude,location.latitude,location.longitude)
-                        if(distanselatlon>70){
+                        if(distanselatlon>100){
                             dis = dis +distanselatlon
-                            begin =LatLng(location.latitude,location.longitude)
+                            begin =LatLng(location.latitude, location.longitude)
                         }
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(begin,16f),7000,null)
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(begin,16f),9000,null)
                         Toast.makeText(requireContext(),"dis: "+dis+" metr",Toast.LENGTH_SHORT).show()
                     }
                 }
-
             }
-
         }
-
-
     }
 
     private fun distanse(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
@@ -271,6 +268,8 @@ private var fusedLocationProviderClient: FusedLocationProviderClient?=null
         map.let {
             googleMap = it
         }
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(40.62056706525722, 71.59180004271276),7f))
 
     }
 
