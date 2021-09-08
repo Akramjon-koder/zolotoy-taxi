@@ -3,7 +3,6 @@ package com.iteach.taxi.fragment.mapfragment.ui
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -19,9 +18,7 @@ import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.iteach.taxi.databinding.FragmentMapBinding
 import com.mindorks.ridesharing.utils.PermissionUtils
 
@@ -37,7 +34,6 @@ class MapFragment: Fragment(),OnMapReadyCallback{
     private var mHandler: Handler? = null
     private var dis: Double = 0.0
     private var begin: LatLng? = null
-    private var end: LatLng? = null
     private var start0rstop = true
 private var fusedLocationProviderClient: FusedLocationProviderClient?=null
     private lateinit var locationCallback: LocationCallback
@@ -53,8 +49,8 @@ private var fusedLocationProviderClient: FusedLocationProviderClient?=null
         mHandler = Handler()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         locationRequest = LocationRequest.create().apply {
-            interval = 5000
-            fastestInterval = 5000
+            interval = 10000
+            fastestInterval = 10000
             priority =LocationRequest.PRIORITY_HIGH_ACCURACY
 
         }
@@ -67,36 +63,18 @@ private var fusedLocationProviderClient: FusedLocationProviderClient?=null
                     if (begin==null){
                         begin =LatLng(location.latitude,location.longitude)
                     }else{
-                        dis = dis +distanse(begin!!.latitude,begin!!.longitude,location.latitude,location.longitude)
-
+                        val distanselatlon = distanse(begin!!.latitude,begin!!.longitude,location.latitude,location.longitude)
+                        if(distanselatlon>70){
+                            dis = dis +distanselatlon
+                            begin =LatLng(location.latitude,location.longitude)
+                        }
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(begin,16f),7000,null)
                         Toast.makeText(requireContext(),"dis: "+dis+" metr",Toast.LENGTH_SHORT).show()
                     }
-                    Toast.makeText(requireContext(),"latlon: "+location.latitude+"\n"+location.longitude,Toast.LENGTH_SHORT).show()
                 }
 
             }
 
-        }
-
-
-    }
-
-    private fun calcilateDstanse() {
-        setUpLocationListener()
-
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 20f))
-        if (begin==null){
-            begin = currentLatLng
-        }else{
-
-            val loc =currentLatLng
-
-            if (loc != null && begin !=null) {
-                dis = dis + distanse(loc.latitude,loc.longitude, begin!!.latitude, begin!!.longitude)
-            }
-
-            Toast.makeText(requireContext(),"dis: "+dis.toString(),Toast.LENGTH_SHORT).show()
-            Toast.makeText(requireContext(),"latlon: "+currentLatLng.toString(),Toast.LENGTH_SHORT).show()
         }
 
 
@@ -141,15 +119,13 @@ private var fusedLocationProviderClient: FusedLocationProviderClient?=null
             })
             startButton.setOnClickListener(View.OnClickListener {
                 if (start0rstop){
-//                    dis = 0.0
-//                    startRepeatingTask()
+                    dis = 0.0
                     start0rstop = false
                    startButton.setText("Hisobni to'xtatish")
 
                     start()
 
                 }else{
-//                    stopRepeatingTask()
                    start0rstop = true
                    startButton.setText("Hisobni boshlash")
 
@@ -160,8 +136,7 @@ private var fusedLocationProviderClient: FusedLocationProviderClient?=null
 
             getLocationnn.setOnClickListener(View.OnClickListener {
 
-                val distanse = distanse(40.373880748356946, 71.80497186762656,40.42198965122155, 71.77347200532392)
-                Toast.makeText(requireContext(),distanse.toString(),Toast.LENGTH_SHORT).show()
+
             })
         }
 
@@ -247,19 +222,11 @@ private var fusedLocationProviderClient: FusedLocationProviderClient?=null
                 if (currentLatLng == null) {
                     for (location in locationResult.locations) {
                         if (currentLatLng == null) {
-                            currentLatLng = LatLng(location.latitude, location.longitude)
+                            //currentLatLng = LatLng(location.latitude, location.longitude)
 
-
-                         //     setCurrentLocationAsPickUp()
-//                            enableMyLocationOnMap()
-//                            moveCamera(currentLatLng)
-//                            animateCamera(currentLatLng)
-//                            presenter.requestNearbyCabs(currentLatLng!!)
                         }
                     }
                 }
-                // Few more things we can do here:
-                // For example: Update the location of user on server
             }
         }
         if (ActivityCompat.checkSelfPermission(
