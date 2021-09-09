@@ -26,10 +26,15 @@ data class CabListAdapter(var context: Context, var list: ArrayList<CabListModel
                     .load(Api_urls.BASE_URL + model.imageUrl)
                     .placeholder(R.drawable.ic_taxi)
                     .into(cabImage)
-                if (model.status == 1) {
-                    cabActive.visibility =View.VISIBLE
-                } else {
-                    cabActive.visibility = View.GONE
+                when (model.status) {
+                    0 -> {
+                        cabActive.visibility = View.GONE
+                    }
+                    1 -> {
+                        cabActive.visibility =View.VISIBLE
+                    }
+                    2 -> {
+                    }
                 }
                 click.setOnClickListener{
                     listener.ClickListener(model)

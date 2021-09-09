@@ -12,6 +12,8 @@ import com.esotericsoftware.minlog.Log
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.JsonObject
 import com.iteach.taxi.R
+import com.iteach.taxi.Utils.Constants
+import com.iteach.taxi.Utils.SharedPref.ActiveCabSaveId
 import com.iteach.taxi.databinding.FragmentOrderBinding
 import com.iteach.taxi.fragment.FragmentChangeListener
 import com.iteach.taxi.fragment.mapfragment.ui.MapFragment
@@ -28,12 +30,9 @@ class OrderFragment : Fragment(), AdapterRecyclerOrder.OnItemClickListner{
     lateinit var adapter: AdapterRecyclerOrder
     private var webSocket: WebSocket? = null
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+        super.onCreate(savedInstanceState) }
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentOrderBinding.inflate(inflater, container, false)
         instantiateWebSocket()
@@ -54,8 +53,12 @@ class OrderFragment : Fragment(), AdapterRecyclerOrder.OnItemClickListner{
             Log.error("salom",it.toString())
             list.clear()
             try {
-                if (it.getJSONObject("data")!=null){
+               if (it.getJSONObject("data")!=null){
+               /*     if (it.getJSONObject("message").equals("Zakazlar o'zgarishi!")){
+
+                         }*/
                     var dataobject = it.getJSONObject("data")
+                    Log.error("datalar",dataobject.toString())
                     var orderList = dataobject.getJSONArray("orders")
                     for (i in 0 until orderList.length()) {
                         var jsonObject = orderList.getJSONObject(i)
@@ -69,22 +72,27 @@ class OrderFragment : Fragment(), AdapterRecyclerOrder.OnItemClickListner{
                 Log.error("salom", e.toString())
             }
         })
-        binding.apply {
-       //     var list = arrayListOf<OrderModel>()
-        }
     }
-
     private fun sendData() {
         val body = JsonObject()
         body.addProperty("command", "auth")
-        body.addProperty("token", "KhyfK-yzuokKjDj4_1630906268")
+        body.addProperty("token", Constants.token)
         try {
         } catch (e: JSONException) {
             e.printStackTrace()
         }
         webSocket!!.send(body.toString())
     }
-
+    private fun CabOrderRequest(order_id:Int){
+        val body =JsonObject()
+        body.addProperty("command","take_order")
+        body.addProperty("token",Constants.token)
+        body.addProperty("order_id",order_id)
+        body.addProperty("car_id",ActiveCabSaveId.getId())
+        webSocket!!.send(body.toString())
+        Thread.sleep(1000)
+        findNavController().navigate(R.id.action_orderFragment_to_mapFragment)
+    }
     private fun instantiateWebSocket() {
         val client = OkHttpClient()
         val request =
@@ -98,7 +106,9 @@ class OrderFragment : Fragment(), AdapterRecyclerOrder.OnItemClickListner{
         alerDialog.setTitle(order.userName + "\n" + order.where + "\n" + order.wherefrom)
         alerDialog.setPositiveButton("ha") { dialog, which ->
             //replaceFragment(MapFragment())
-            findNavController().navigate(R.id.action_orderFragment_to_mapFragment)
+            CabOrderRequest(order.id.toInt())
+
+        //
         }
         alerDialog.setNegativeButton("yo'q") { dialod, which ->
 

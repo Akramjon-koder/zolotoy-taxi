@@ -23,6 +23,7 @@
                 android:layout_height="@dimen/_60sdp"
                 android:layout_marginLeft="@dimen/_4sdp"
                 android:src="@drawable/ic_taxi"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -99,6 +100,5 @@
         app:layout_constraintRight_toRightOf="parent"
         android:background="@color/gray"
         >
-
     </View>
 </androidx.constraintlayout.widget.ConstraintLayout>
