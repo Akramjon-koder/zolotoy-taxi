@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +14,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.iteach.taxi.TaxiActivity
 import com.iteach.taxi.Utils.SharedPref.LoginPref
 import com.iteach.taxi.databinding.RegisterBinding
-import com.iteach.taxi.fragment.login.base.Login_Password
+import com.iteach.taxi.fragment.login.base.LoginModel
+import com.iteach.taxi.fragment.register.base.SendCode
+import com.iteach.taxi.fragment.signup.base.Send_Register_Model
 import com.iteach.taxi.viewmodel.MyViewModel
 import io.paperdb.Paper
 
-class FragmentRegister(val logginpassword: Login_Password) : Fragment(){
+class FragmentRegister(val sendRegisterModel: Send_Register_Model) : Fragment(){
     private var _binding: RegisterBinding?=null
     private val binding get() = _binding!!
     lateinit var viewModel: MyViewModel
@@ -36,20 +37,17 @@ class FragmentRegister(val logginpassword: Login_Password) : Fragment(){
         _binding = RegisterBinding.inflate(inflater,container,false)
         inits()
 
-        sendLogin()
+        signUp()
 
         viewModel.error.observe(requireActivity(), Observer {
             Toast.makeText(requireContext(),it , Toast.LENGTH_LONG).show()
-            Log.e("succes",it.toString())
         })
-
-        viewModel.user.observe(requireActivity(), Observer {
-            LoginPref.SaveLogin(it)
-            Toast.makeText(requireContext(),it.first_name,Toast.LENGTH_SHORT).show()
-
-        })
-
         binding.apply {
+
+        viewModel.sig_up.observe(requireActivity(), Observer {
+            pinview.setFocusable(true)
+            pinview.setFocusableInTouchMode(true)
+        })
 
             pinview.addTextChangedListener(object :TextWatcher{
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -69,9 +67,7 @@ class FragmentRegister(val logginpassword: Login_Password) : Fragment(){
 
             sendButton.setOnClickListener(View.OnClickListener {
                 if (sendButton.alpha==1F){
-
-                        startActivity(Intent(requireActivity(),TaxiActivity::class.java))
-                        activity?.finish()
+                    registr()
                 }
             })
 
@@ -80,15 +76,23 @@ class FragmentRegister(val logginpassword: Login_Password) : Fragment(){
         return binding.root
     }
 
-    private fun inits() {
+    private fun registr() {
+        viewModel.registrationCode(SendCode(sendRegisterModel.phone, binding.pinview.text.toString()))
+    }
 
-        Paper.init(requireContext())
+    private fun signUp() {
+
+        viewModel.signUp(sendRegisterModel)
+    }
+
+
+    private fun inits() {
 
         viewModel = ViewModelProvider(requireActivity()).get(MyViewModel::class.java)
     }
 
     private fun sendLogin() {
-        viewModel.sendLogin(logginpassword)
+        //viewModel.sendLogin(logginpassword)
     }
 
     private fun notactivateButton() {

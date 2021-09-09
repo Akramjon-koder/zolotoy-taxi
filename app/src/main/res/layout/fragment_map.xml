@@ -25,6 +25,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/getLocationnn"
         android:layout_width="@dimen/size_50dp"
         android:layout_height="@dimen/size_50dp"
         android:layout_margin="10dp"
@@ -77,6 +78,7 @@
 <!--    </androidx.cardview.widget.CardView>-->
 
     <com.google.android.gms.maps.MapView
+
         android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -240,6 +242,7 @@
             android:layout_marginTop="@dimen/size_5dp">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/startButton"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="3"
