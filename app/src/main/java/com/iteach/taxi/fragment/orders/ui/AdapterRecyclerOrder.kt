@@ -11,13 +11,13 @@ class AdapterRecyclerOrder(val items: ArrayList<OrderModel>,var orderclick: OnIt
         return MyViewHolder(binding) }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
       with(holder){
-          binding.nomi.text = items[position].userName
+          binding.nomi.text = items[position].clientphone
+          binding.title.text=items[position].where.toString()
           binding.itemOrder.setOnClickListener {
-              orderclick.orderClicked(items[position])
-          }
-      }
+              orderclick.orderClicked(items[position]) }}
     }
     fun setData(list: List<OrderModel>){
+        items.clear()
         items.addAll(list)
         notifyDataSetChanged()
     }

@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_orderFragment_to_mapFragment"
             app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_orderFragment_to_cabListFragment"
+            app:destination="@id/cabListFragment" />
     </fragment>
     <fragment
         android:id="@+id/addCabFragment"

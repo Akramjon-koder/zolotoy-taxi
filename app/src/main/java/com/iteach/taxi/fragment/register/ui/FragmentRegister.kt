@@ -1,35 +1,30 @@
 package com.iteach.taxi.fragment.register.ui
-
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.iteach.taxi.TaxiActivity
 import com.iteach.taxi.Utils.SharedPref.LoginPref
 import com.iteach.taxi.databinding.RegisterBinding
-import com.iteach.taxi.fragment.login.base.LoginModel
 import com.iteach.taxi.fragment.register.base.SendCode
 import com.iteach.taxi.fragment.signup.base.Send_Register_Model
 import com.iteach.taxi.viewmodel.MyViewModel
-import io.paperdb.Paper
 
 class FragmentRegister(val sendRegisterModel: Send_Register_Model) : Fragment(){
     private var _binding: RegisterBinding?=null
     private val binding get() = _binding!!
     lateinit var viewModel: MyViewModel
-
+    var resend = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,14 +34,52 @@ class FragmentRegister(val sendRegisterModel: Send_Register_Model) : Fragment(){
 
         signUp()
 
-        viewModel.error.observe(requireActivity(), Observer {
-            Toast.makeText(requireContext(),it , Toast.LENGTH_LONG).show()
-        })
         binding.apply {
+
+            viewModel.SMS.observe(requireActivity(), Observer {
+
+                resend = false
+                var time = 120
+                val timer = object: CountDownTimer(120000, 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        time-=1
+                        TextViewTimer.setText("$time s qoldi")
+                    }
+                    override fun onFinish() {
+                        resend=true
+                        TextViewTimer.setText("Iltimos qayta yuboring")
+                        sendButton.setText("SMS ni qayta yuborish")
+                        binding.sendButton.alpha = 1F
+                    }
+                }
+                timer.start()
+            })
+
+            viewModel.user.observe(requireActivity(), Observer {
+
+                    LoginPref.SaveLogin(it)
+                    startActivity(Intent(requireContext(),TaxiActivity::class.java))
+                    activity?.finish()
+            })
 
         viewModel.sig_up.observe(requireActivity(), Observer {
             pinview.setFocusable(true)
             pinview.setFocusableInTouchMode(true)
+
+            var time = 120
+            val timer = object: CountDownTimer(120000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    time-=1
+                    TextViewTimer.setText("$time s qoldi")
+                }
+                override fun onFinish() {
+                    resend=true
+                    TextViewTimer.setText("Iltimos qayta yuboring")
+                    sendButton.setText("SMS ni qayta yuborish")
+                    binding.sendButton.alpha = 1F
+                }
+            }
+            timer.start()
         })
 
             pinview.addTextChangedListener(object :TextWatcher{
@@ -67,13 +100,29 @@ class FragmentRegister(val sendRegisterModel: Send_Register_Model) : Fragment(){
 
             sendButton.setOnClickListener(View.OnClickListener {
                 if (sendButton.alpha==1F){
-                    registr()
+
+                    if (resend){
+
+                        resendSMSSend()
+                    }else{
+                        registr()
+                    }
+
+
+                    binding.sendButton.alpha = 0.5F
+                    binding.sendButton.setText("Yuborish")
+
                 }
+
             })
 
         }
 
         return binding.root
+    }
+
+    private fun resendSMSSend(){
+        viewModel.ResendSMSCode(sendRegisterModel.phone.toString())
     }
 
     private fun registr() {
@@ -102,6 +151,7 @@ class FragmentRegister(val sendRegisterModel: Send_Register_Model) : Fragment(){
     private fun activateButton() {
         binding.sendButton.alpha = 1F
     }
+
 
 
 }

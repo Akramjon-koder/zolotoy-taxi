@@ -1,17 +1,14 @@
 package com.iteach.taxi.fragment.addcab.base
-
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.iteach.taxi.api.NetworkManeger
 import com.iteach.taxi.fragment.login.base.Login_Password
 import com.iteach.taxi.model.BaseResponse
-import com.iteach.taxi.model.LogindataModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.observers.DisposableObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.RequestBody
-
 class CabListRepo {
     val compositeDisposible = CompositeDisposable()
     fun getCabList(error: MutableLiveData<String>, success: MutableLiveData<ArrayList<CabListModel>>,token:String){

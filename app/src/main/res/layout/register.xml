@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context="com.iteach.taxi.fragment.register.ui.FragmentRegister"
     android:background="@color/white">
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +29,6 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/pinview"
         app:layout_constraintStart_toStartOf="@+id/pinview" />
-
 
 <!--    <com.goodiebag.pinview.Pinview-->
 <!--        android:id="@+id/editText"-->
@@ -90,8 +88,8 @@
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/pinview"
         app:layout_constraintTop_toBottomOf="@+id/pinview" />
-
     <TextView
+        android:id="@+id/TextViewTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"

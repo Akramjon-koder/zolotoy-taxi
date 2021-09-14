@@ -2,7 +2,6 @@ package com.iteach.taxi.fragment.addcab.base
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.iteach.taxi.fragment.login.base.Login_Password
-import com.iteach.taxi.model.LogindataModel
 import okhttp3.RequestBody
 
 class CabListVM : ViewModel() {

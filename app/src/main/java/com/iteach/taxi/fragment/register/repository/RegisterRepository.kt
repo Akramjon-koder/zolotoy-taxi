@@ -12,6 +12,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class RegisterRepository {
     val compositeDisposible = CompositeDisposable()
+
     fun sendRegistrCode(
         error: MutableLiveData<String>,
         success: MutableLiveData<LoginModel>,
@@ -21,10 +22,12 @@ class RegisterRepository {
         compositeDisposible.add(
             NetworkManeger.getApiService()
                 .sendRegistrCode(sendCode)
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableObserver<BaseResponse<LoginModel>>() {
                     override fun onNext(t: BaseResponse<LoginModel>) {
                         if (t?.success == true) {
+
                             success.value = t?.data
                         } else
                             error.value = t?.message
@@ -40,5 +43,9 @@ class RegisterRepository {
 
                 })
         )
+
+
+
     }
+
 }

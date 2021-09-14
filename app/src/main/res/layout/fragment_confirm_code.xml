@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.register.ui.ConfirmCodeFragment">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_mono_bold"
+        android:text="@string/app_name"
+        android:textColor="@color/black"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.10" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="SMS kodni kiriting"
+        android:textColor="@color/black"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/pinview"
+        app:layout_constraintStart_toStartOf="@+id/pinview" />
+    <!--    <com.goodiebag.pinview.Pinview-->
+    <!--        android:id="@+id/editText"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:inputType="number"-->
+    <!--        app:cursorVisible="true"-->
+    <!--        app:pinHeight="@dimen/size_40dp"-->
+    <!--        app:pinLength="4"-->
+    <!--        app:pinWidth="@dimen/size_40dp"-->
+    <!--        app:forceKeyboard="true"-->
+    <!--        app:pinBackground="@drawable/outlinebackground"-->
+    <!--        android:layout_marginLeft="@dimen/size_30dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.0"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:lineColor="@color/yellow" />-->
+
+    <com.chaos.view.PinView
+        android:id="@+id/pinview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:itemBackground="@drawable/outlinebackground"
+        app:hideLineWhenFilled="true"
+        android:cursorVisible="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_18sp"
+        android:layout_marginLeft="30dp"
+        android:gravity="center_vertical"
+        android:inputType="number"
+        android:padding="5dp"
+        app:itemCount="6"
+        app:itemHeight="38dp"
+        app:itemRadius="5dp"
+        app:itemWidth="38dp"
+        app:cursorColor="@color/teal_200"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lineColor="@color/yellow" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/sendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.5"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@color/yellow"
+        android:text="Отправить код"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/pinview"
+        app:layout_constraintTop_toBottomOf="@+id/pinview" />
+    <TextView
+        android:id="@+id/TextViewTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:textColor="#A0A0A0"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/sendButton"
+        app:layout_constraintStart_toEndOf="@+id/sendButton"
+        app:layout_constraintTop_toTopOf="@+id/sendButton" />
+</androidx.constraintlayout.widget.ConstraintLayout>

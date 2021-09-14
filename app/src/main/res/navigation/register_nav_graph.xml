@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/register_nav_graph"
+    app:startDestination="@id/loginFragment">
+    <fragment
+        android:id="@+id/fragment_SignUp"
+        android:name="com.iteach.taxi.fragment.signup.ui.Fragment_SignUp"
+        android:label="Fragment_SignUp">
+
+        <action
+            android:id="@+id/action_fragment_SignUp_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_fragment_SignUp_to_confirmCodeFragment"
+            app:destination="@id/confirmCodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.iteach.taxi.fragment.login.ui.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_fragment_SignUp"
+            app:destination="@id/fragment_SignUp" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmCodeFragment"
+        android:name="com.iteach.taxi.fragment.register.ui.ConfirmCodeFragment"
+        android:label="fragment_confirm_code"
+        tools:layout="@layout/fragment_confirm_code" />
+</navigation>

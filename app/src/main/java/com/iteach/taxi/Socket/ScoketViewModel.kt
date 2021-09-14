@@ -14,4 +14,5 @@ class ScoketViewModel:ViewModel() {
     fun setrealJsonArray(array:JSONArray){
         return realjsonArray.postValue(array)
     }
+
 }

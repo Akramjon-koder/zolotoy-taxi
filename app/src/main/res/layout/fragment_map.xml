@@ -1,55 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:clickable="true"
-        android:elevation="30dp"
-        android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/edit_icon" />
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/getLocationnn"
-        android:layout_width="@dimen/size_50dp"
-        android:layout_height="@dimen/size_50dp"
-        android:layout_margin="10dp"
-        android:backgroundTint="@color/yellow"
-        android:clickable="true"
-        android:elevation="30dp"
-        android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/map_view"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/size_12dp"
-            android:src="@drawable/icon_send" />
-    </androidx.cardview.widget.CardView>
-
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/phone"
         android:layout_width="@dimen/size_40dp"
         android:layout_height="@dimen/size_40dp"
         android:layout_marginRight="@dimen/size_10dp"
-        android:layout_marginBottom="@dimen/size_10dp"
+        android:layout_marginBottom="@dimen/_28sdp"
         android:backgroundTint="#1CED24"
         android:textColor="@color/black"
         android:textSize="@dimen/text_14sp"
@@ -57,40 +16,33 @@
         app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/map_view"
         app:layout_constraintEnd_toEndOf="parent" />
-
-<!--    <androidx.cardview.widget.CardView-->
-<!--        android:layout_width="40dp"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:layout_margin="10dp"-->
-<!--        android:backgroundTint="@color/yellow"-->
-<!--        android:clickable="true"-->
-<!--        android:elevation="30dp"-->
-<!--        android:foreground="?attr/selectableItemBackground"-->
-<!--        app:cardCornerRadius="20dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/map_view"-->
-<!--        app:layout_constraintEnd_toEndOf="parent">-->
-
-<!--        <ImageView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_margin="8dp"-->
-<!--            android:src="@drawable/icon_card" />-->
-<!--    </androidx.cardview.widget.CardView>-->
-
     <com.google.android.gms.maps.MapView
-
         android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/layoutbottom"
+        app:layout_constraintBottom_toTopOf="@id/view1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
 
-    <LinearLayout
+        />
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/layoutbottom"
+        android:layout_marginTop="@dimen/_16sdp"
+
+        >
+
+    </View>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutbottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_130sdp"
+
         android:background="@color/white"
         android:elevation="30dp"
         android:orientation="vertical"
@@ -98,167 +50,207 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/outlinebackground"
-            android:hint="Адрес Отправления (геометка)"
-            android:padding="8dp"
-            android:textSize="14sp" />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="@dimen/size_20dp"
+            android:layout_height="@dimen/size_20dp"
+            android:layout_marginLeft="@dimen/size_10dp"
+            android:backgroundTint="#4CAF50"
+            android:src="@drawable/ic_dot"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/begin" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/outlinebackground"
-            android:hint="Адрес Назначения (геометка)"
-            android:padding="8dp"
-            android:textSize="14sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/begin"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/size_5dp">
-            <LinearLayout
+            android:layout_marginTop="@dimen/size_10dp"
+            android:layout_marginBottom="@dimen/size_5dp"
+            android:text="Begin street"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="@dimen/size_4dp"
+            android:layout_height="@dimen/size_4dp"
+            android:backgroundTint="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="@+id/imageView2"
+            app:layout_constraintStart_toStartOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            app:layout_constraintVertical_bias="0.2" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView3"
+            android:layout_width="@dimen/size_4dp"
+            android:layout_height="@dimen/size_4dp"
+            android:backgroundTint="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="@+id/imageView2"
+            app:layout_constraintStart_toStartOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            app:layout_constraintVertical_bias="0.4" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_2dp"
+            android:layout_marginRight="@dimen/size_10dp"
+            android:background="@color/gray"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout5" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/size_5dp"
+            android:orientation="horizontal"
+            android:paddingVertical="@dimen/size_2dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/clockimage"
+                android:layout_width="@dimen/size_25dp"
+                android:layout_height="@dimen/size_25dp"
+                android:layout_gravity="left"
+                android:src="@drawable/icon_clock"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/min"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/item_order1"
-                android:orientation="vertical"
-                android:background="@drawable/outlinebackgroundyellow"
-                android:elevation="@dimen/size_1dp"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:layout_marginTop="@dimen/size_10dp"
-                android:layout_marginLeft="@dimen/size_5dp"
-                xmlns:android="http://schemas.android.com/apk/res/android">
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="00:00"
+                android:visibility="gone"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/clockimage"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/nomi1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_18sp"
-                    android:textColor="@color/white"
-                    android:text="К бабуле"
-                    android:fontFamily="@font/roboto_mono_bold"
-                    android:layout_marginLeft="@dimen/size_12dp"
-                    android:layout_marginTop="@dimen/size_12dp"/>
 
-                <TextView
-                    android:id="@+id/title1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_18sp"
-                    android:textColor="@color/white"
-                    android:text="Ул. Воскова, 4"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/roboto"
-                    android:maxLines="1"
-                    android:layout_marginLeft="@dimen/size_12dp"
-                    android:layout_marginTop="@dimen/size_12dp"
-                    android:layout_marginRight="@dimen/size_12dp" />
+            <ImageView
+                android:id="@+id/ivlocation"
+                android:layout_width="@dimen/size_25dp"
+                android:layout_height="@dimen/size_25dp"
+                android:layout_gravity="right"
+                android:src="@drawable/ic_baseline_place_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                />
 
-                <TextView
-                    android:id="@+id/title11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_18sp"
-                    android:textColor="@color/white"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="nПарковая, 21Б"
-                    android:fontFamily="@font/roboto"
-                    android:layout_marginLeft="@dimen/size_12dp"
-                    android:layout_marginTop="@dimen/size_3dp"
-                    android:layout_marginRight="@dimen/size_12dp"
-                    android:layout_marginBottom="@dimen/size_12dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/km"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/item_order2"
-                android:orientation="vertical"
-                android:background="@drawable/outlinebackground"
-                android:elevation="@dimen/size_1dp"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:layout_marginTop="@dimen/size_10dp"
-                android:layout_marginLeft="@dimen/size_8dp"
-                xmlns:android="http://schemas.android.com/apk/res/android">
-
-                <TextView
-                    android:id="@+id/nomi2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_18sp"
-                    android:textColor="@color/black"
-                    android:text="К бабуле"
-                    android:fontFamily="@font/roboto_mono_bold"
-                    android:layout_marginLeft="@dimen/size_12dp"
-                    android:layout_marginTop="@dimen/size_12dp"/>
-
-                <TextView
-                    android:id="@+id/title2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_18sp"
-                    android:textColor="@color/black"
-                    android:text="Ул. Воскова, 4"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/roboto"
-                    android:maxLines="1"
-                    android:layout_marginLeft="@dimen/size_12dp"
-                    android:layout_marginTop="@dimen/size_12dp"
-                    android:layout_marginRight="@dimen/size_12dp" />
-
-                <TextView
-                    android:id="@+id/title12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_18sp"
-                    android:textColor="@color/black"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="nПарковая, 21Б"
-                    android:fontFamily="@font/roboto"
-                    android:layout_marginLeft="@dimen/size_12dp"
-                    android:layout_marginTop="@dimen/size_3dp"
-                    android:layout_marginRight="@dimen/size_12dp"
-                    android:layout_marginBottom="@dimen/size_12dp"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/size_10dp"
+                android:text="0 m"
+                android:textColor="@color/black"
+                app:layout_constraintLeft_toRightOf="@id/ivlocation"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_2dp"
+            android:layout_marginRight="@dimen/size_10dp"
+            android:background="@color/gray"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout5"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView4"
+            android:layout_width="@dimen/size_4dp"
+            android:layout_height="@dimen/size_4dp"
+            android:backgroundTint="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="@+id/imageView2"
+            app:layout_constraintStart_toStartOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            app:layout_constraintVertical_bias="0.6" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="@dimen/size_4dp"
+            android:layout_height="@dimen/size_4dp"
+            android:backgroundTint="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="@+id/imageView2"
+            app:layout_constraintStart_toStartOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            app:layout_constraintVertical_bias="0.8" />
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/size_20dp"
+            android:layout_height="@dimen/size_20dp"
+            android:backgroundTint="#4CAF50"
+            android:src="@drawable/ic_dot_red"
+            app:layout_constraintBottom_toBottomOf="@+id/end"
+            app:layout_constraintEnd_toEndOf="@+id/imageView2"
+            app:layout_constraintStart_toStartOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:text="End street"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <LinearLayout
-            android:layout_gravity="bottom"
+            android:id="@+id/linearLayout4"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_gravity="bottom"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/outlinebackgroundyellow"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:layout_marginBottom="@dimen/size_10dp"
-            android:layout_marginTop="@dimen/size_5dp">
-
-            <com.google.android.material.button.MaterialButton
+            app:layout_constraintBottom_toBottomOf="parent">
+            <TextView
                 android:id="@+id/startButton"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Hisobni boshlash"
                 android:textColor="@color/white"
-                android:text="hisobni boshlash"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="5dp"/>
-
-            <ImageButton
-                android:layout_width="@dimen/size_100dp"
-                android:layout_height="@dimen/size_50dp"
-                android:src="@drawable/ic_editplus"
-                android:backgroundTint="@color/yellow"/>
-
+                android:textSize="@dimen/_16sdp" />
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
